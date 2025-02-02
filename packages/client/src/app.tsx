@@ -1,3 +1,21 @@
+/*
+ * TODO:
+ * 1. use react-query
+ * 2. add debouncing
+ * 3. add routing
+ * 4. add zustand
+ * 5. split components/pages
+ * 6. simulate delay
+ * 7. error states
+ * 8. add navbar
+ * 9. styled components or other
+ * 10. proper html tags <section>, <form> <input> <footer> <img> <ul,li> <select>, h1,h2,h3, nav
+ * 11. maybe add a typography component
+ * 12. basic testing
+ * 13. optional: pagination
+ */
+
+
 import { useState, type ChangeEvent } from 'react';
 import { getCodeSandboxHost } from "@codesandbox/utils";
 
