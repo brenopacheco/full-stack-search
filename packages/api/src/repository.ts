@@ -33,8 +33,14 @@ export class Repository {
           .select(["country"])
           .limit(limit)
           .lean(),
+        // TODO: this search needs to include:
+        // - chain_name
+        // - hotel_name
+        // - country
+        // - city
+        // Use text-search?
         Hotel.find({ hotel_name: regex })
-          .select(["hotel_name"])
+          .select(["hotel_name", "chain_name", "city", "country"])
           .limit(limit)
           .lean(),
       ]);
