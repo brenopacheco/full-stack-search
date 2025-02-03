@@ -25,6 +25,7 @@ export class Repository {
       const { City, Country, Hotel } = this.dbClient.model;
 
       const regex = { $regex: new RegExp(`^${search}`), $options: "i" };
+      this.logger.debug("findLocationsByPartialName", { regex });
 
       const [cities, countries, hotels] = await Promise.all([
         City.find({ name: regex }).select(["name"]).limit(limit).lean(),

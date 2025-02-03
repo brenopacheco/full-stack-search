@@ -17,7 +17,7 @@ export class DBClient {
   public model: Models;
   private constructor(
     private conn: mongoose.Connection,
-    private _logger: Logger,
+    private logger: Logger,
     private mongod?: MongoMemoryServer,
   ) {
     this.model = {
@@ -25,7 +25,7 @@ export class DBClient {
       Hotel: hotelSchema(conn),
       Country: countrySchema(conn),
     };
-    this._logger.info("Database connected");
+    this.logger.info("Database connected");
   }
 
   public async destroy() {

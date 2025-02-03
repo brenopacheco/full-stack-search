@@ -1,5 +1,7 @@
 import { type Response } from "express";
 
+export type ValidationError = { path: string; detail: string };
+
 const Ok = (res: Response, body?: object) => {
   return res.status(200).json(body);
 };
@@ -17,5 +19,3 @@ const ServerError = (res: Response) => {
 };
 
 export default { Ok, BadRequest, ServerError };
-
-export type ValidationError = { path: string; detail: string };

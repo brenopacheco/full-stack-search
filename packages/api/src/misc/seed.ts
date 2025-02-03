@@ -22,7 +22,7 @@ export async function syncIndexes(
   dbClient: DBClient,
 ): Promise<Result<void, Error>> {
   try {
-    const res = await Promise.all([
+    await Promise.all([
       dbClient.model.City.syncIndexes(),
       dbClient.model.Country.syncIndexes(),
       dbClient.model.Hotel.syncIndexes(),

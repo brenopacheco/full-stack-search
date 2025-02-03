@@ -9,6 +9,7 @@ export class Logger {
   _logger: winston.Logger;
 
   constructor(opts?: LoggerOpts) {
+    const transports = [];
     const level = opts?.LOG_LEVEL ?? "info";
     const format = winston.format.combine(
       winston.format.timestamp(),
@@ -16,11 +17,7 @@ export class Logger {
       winston.format.json(),
     );
 
-
-    const transports = [];
-
     transports.push(new winston.transports.Console({ level, format }));
-
     if (opts?.LOG_FILE) {
       transports.push(
         new winston.transports.File({ level, format, filename: opts.LOG_FILE }),

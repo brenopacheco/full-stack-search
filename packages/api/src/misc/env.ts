@@ -1,6 +1,6 @@
 import z from "zod";
 import dotenv from "dotenv";
-import { Err, Ok } from "src/misc/results";
+import { Err, Ok, Result } from "src/misc/results";
 
 const zEnv = z
   .object({
@@ -12,7 +12,7 @@ const zEnv = z
       .transform((v) => v === "true"),
     DATABASE_URL: z
       .string()
-      .regex(/^mongodb(\+srv)?:\/\//, 'Invalid connection string format')
+      .regex(/^mongodb(\+srv)?:\/\//, "Invalid connection string format")
       .nullable()
       .default(null),
     LOG_LEVEL: z.enum(["error", "info", "debug"]).default("info"),
@@ -25,6 +25,14 @@ const zEnv = z
 
 export type Environment = z.infer<typeof zEnv>;
 
+class EnvironmentError extends Error {
+  constructor(
+    message: string,
+    public errors: { var: string; error: string }[],
+  ) {
+    super(message);
+  }
+}
 
 export const environment = (): Result<Environment, Error> => {
   dotenv.config();
@@ -34,12 +42,10 @@ export const environment = (): Result<Environment, Error> => {
     return Ok(result.data);
   }
 
-  const error = new Error("Invalid configuration")
+  const errors = result.error.issues.map((issue) => ({
+    var: String(issue.path),
+    error: issue.message,
+  }));
 
-  return Err(
-    result.error.issues.map((issue) => ({
-      var: String(issue.path),
-      error: issue.message,
-    })),
-  );
+  return Err(new EnvironmentError("Invalid configuration", errors));
 };
