@@ -79,6 +79,17 @@ body {
 
 .search-dropdown-menu {
   max-height: 450px;
-  /* overflow: scroll; */
   overflow: auto;
+}
+
+.search-dropdown-menu .spinner {
+  position: absolute;
+  right: 18px;
+  top: 10px;
+}
+
+.dropdown-item {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }

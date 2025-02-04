@@ -6,3 +6,12 @@ const zEnv = z.object({
 
 export const env = zEnv.parse(import.meta.env);
 export type Env = z.infer<typeof zEnv>;
+
+// HACK: for demo purposes
+declare global {
+  interface Window {
+    DELAY_MS: number;
+  }
+}
+
+window.DELAY_MS = 300;

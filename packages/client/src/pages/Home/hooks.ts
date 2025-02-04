@@ -8,7 +8,7 @@ export const zLocations = z.object({
   hotels: z.array(z.object({ _id: z.string(), hotel_name: z.string() })),
 });
 
-export const useLocations = (search: string) => {
+export const useLocations = (search: string| null) => {
   return useQuery({
     queryKey: ["locations", search],
     queryFn: () =>
@@ -20,6 +20,6 @@ export const useLocations = (search: string) => {
   });
 };
 
-function delay<T>(data: T, ms = 200) {
-  return new Promise((resolve) => setTimeout(() => resolve(data), ms));
+function delay<T>(data: T) {
+  return new Promise((resolve) => setTimeout(() => resolve(data), window.DELAY_MS));
 }

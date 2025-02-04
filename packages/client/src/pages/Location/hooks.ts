@@ -16,6 +16,6 @@ export const useLocation = (location: LocationType, id?: string) => {
   });
 };
 
-function delay<T>(data: T, ms = 200) {
-  return new Promise((resolve) => setTimeout(() => resolve(data), ms));
+function delay<T>(data: T) {
+  return new Promise((resolve) => setTimeout(() => resolve(data), window.DELAY_MS));
 }

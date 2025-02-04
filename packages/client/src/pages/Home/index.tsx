@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useSearchParams } from "react-router";
 import { useLocations } from "./hooks";
 import { SearchInput } from "./SearchInput";
-import { cityToItem, countryToItem, hotelToItem } from "./utils";
 import { Alert } from "../../components/Alert";
 import { Spinner } from "../../components/Spinner";
 import DropdownMenu from "./DropdownMenu";
 
 export default function Home() {
-  const [search, setSearch] = useState("");
-  const query = useLocations(search);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = useLocations(searchParams.get("search"));
 
-  const showResults = !!query.data && !query.isFetching && search.length > 0;
+  const search = searchParams.get("search") ?? "";
+  const onSearch = (search: string) => setSearchParams({search})
 
   return (
     <div className="row height d-flex justify-content-center pt-5">
@@ -18,31 +18,44 @@ export default function Home() {
         <div className="dropdown">
           <SearchInput
             value={search}
-            onChange={setSearch}
+            onChange={onSearch}
             placeholder="Search accommodation..."
           />
+
           {query.isError && <Alert message="Something went wrong..." />}
-          <DropdownMenu>
+
+          <DropdownMenu show={search.length > 0}>
             {query.isFetching && <Spinner message="Loading..." />}
-            {showResults && (
-              <>
-                <DropdownMenu.Group
-                  title="Hotels"
-                  onEmpty="No hotels matched"
-                  items={hotelToItem(query.data.hotels)}
+
+            <DropdownMenu.Group title="Hotels" onEmpty="No hotels matched">
+              {query.data?.hotels.map((hotel) => (
+                <DropdownMenu.GroupItem
+                  key={hotel._id}
+                  path={`/hotel/${hotel._id}`}
+                  name={hotel.hotel_name}
                 />
-                <DropdownMenu.Group
-                  title="Countries"
-                  onEmpty="No country matched"
-                  items={countryToItem(query.data.countries)}
+              ))}
+            </DropdownMenu.Group>
+
+            <DropdownMenu.Group title="Countries" onEmpty="No country matched">
+              {query.data?.countries.map((country) => (
+                <DropdownMenu.GroupItem
+                  key={country._id}
+                  path={`/country/${country._id}`}
+                  name={country.country}
                 />
-                <DropdownMenu.Group
-                  title="Cities"
-                  onEmpty="No city matched"
-                  items={cityToItem(query.data.cities)}
+              ))}
+            </DropdownMenu.Group>
+
+            <DropdownMenu.Group title="Cities" onEmpty="No city matched">
+              {query.data?.cities.map((city) => (
+                <DropdownMenu.GroupItem
+                  key={city._id}
+                  path={`/city/${city._id}`}
+                  name={city.name}
                 />
-              </>
-            )}
+              ))}
+            </DropdownMenu.Group>
           </DropdownMenu>
         </div>
       </div>

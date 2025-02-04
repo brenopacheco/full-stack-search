@@ -1,46 +1,55 @@
 import React from "react";
 import { Link } from "react-router";
 
-const DropdownMenu = (props: { children: React.ReactNode[] }) => {
-  if (!props.children.some(Boolean)) return null;
-
+const DropdownMenu = (props: {
+  show: boolean;
+  children: React.ReactNode[] | React.ReactNode;
+}) => {
   return (
-    <div className="search-dropdown-menu dropdown-menu w-100 show p-3 mt-2">
+    <div
+      className={`search-dropdown-menu 
+      dropdown-menu w-100 p-3 mt-2
+      ${props.show ? "show" : ""}`}
+    >
       {props.children}
     </div>
   );
 };
 
-export type DropdownMenuGroupProps = {
+const DropdownMenuGroup = (props: {
   title: string;
   onEmpty: string;
-  items: Array<{
-    path: string;
-    name: string;
-  }>;
+  children: React.ReactNode[] | React.ReactNode;
+}) => {
+  const items = React.Children.toArray(props.children);
+
+  return (
+    <section>
+      <h2>{props.title}</h2>
+      {items.length === 0 && <p>{props.onEmpty}</p>}
+      {props.children}
+    </section>
+  );
 };
 
-const DropdownMenuGroup = ({
-  title,
-  onEmpty,
-  items,
-}: DropdownMenuGroupProps) => {
+export interface DropdownMenuGroupItem {
+  key: string;
+  path: string;
+  name: string;
+}
+
+const DropdownMenuGroupItem = (props: DropdownMenuGroupItem) => {
   return (
-    <div>
-      <h2>{title}</h2>
-      {items.length === 0 && <p>{onEmpty}</p>}
-      {items.map((item, index) => (
-        <li key={index}>
-          <Link to={item.path} className="dropdown-item">
-            <i className="fa fa-building mr-2"></i>
-            {item.name}
-          </Link>
-          <hr className="divider" />
-        </li>
-      ))}
-    </div>
+    <li key={props.key}>
+      <Link to={props.path} className="dropdown-item">
+        <i className="fa fa-building mr-2"></i>
+        {props.name}
+      </Link>
+      <hr className="divider" />
+    </li>
   );
 };
 
 DropdownMenu.Group = DropdownMenuGroup;
+DropdownMenu.GroupItem = DropdownMenuGroupItem;
 export default DropdownMenu;
