@@ -18,4 +18,8 @@ const ServerError = (res: Response) => {
   return res.status(500).send();
 };
 
-export default { Ok, BadRequest, ServerError };
+const NotFound = (res: Response) => {
+  return res.status(404).send();
+};
+
+export default { Ok, BadRequest, NotFound, ServerError };

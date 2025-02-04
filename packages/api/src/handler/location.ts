@@ -4,7 +4,12 @@ import { parseQuery } from "src/misc/query";
 import container from "src/misc/container";
 import http from "src/misc/http";
 
-export const getLocations: RequestHandler = async (req, res, next) => {
+const querySchema = z.object({
+  search: z.string().min(1),
+  limit: z.number({ coerce: true }).default(10),
+});
+
+export const findLocations: RequestHandler = async (req, res, next) => {
   const { repository } = container.get();
 
   const query = parseQuery(req.query, querySchema);
@@ -21,8 +26,3 @@ export const getLocations: RequestHandler = async (req, res, next) => {
 
   return http.Ok(res, locations.value);
 };
-
-const querySchema = z.object({
-  search: z.string().min(1),
-  limit: z.number({ coerce: true }).default(10),
-});

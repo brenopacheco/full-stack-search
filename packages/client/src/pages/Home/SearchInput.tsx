@@ -18,7 +18,7 @@ export const SearchInput = (props: SearchInputProps) => {
 
   const onClear = () => {
     setSearch("");
-    debounceChange("");
+    props.onChange("");
   };
 
   return (
@@ -29,6 +29,7 @@ export const SearchInput = (props: SearchInputProps) => {
         className="form-control form-input"
         placeholder={props.placeholder}
         onChange={onChange}
+        value={search}
       />
       {search.length > 0 && (
         <span>

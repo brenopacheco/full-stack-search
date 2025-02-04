@@ -1,7 +1,7 @@
-import { DropdownMenuProps } from "./DropdownMenu";
+import { DropdownMenuGroupProps } from "./DropdownMenu";
 import { City, Country, Hotel } from "./types";
 
-type MenuItem = DropdownMenuProps["menu"][number]["items"][number];
+type MenuItem = DropdownMenuGroupProps["items"][number];
 
 export function hotelToItem(hotels?: Hotel[]): MenuItem[] {
   if (!hotels) return [];

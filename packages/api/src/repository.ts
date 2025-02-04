@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { DBClient } from "src/db";
 import { Logger } from "src/misc/log";
 import { Err, Ok, Result } from "src/misc/results";
@@ -33,19 +34,68 @@ export class Repository {
           .select(["country"])
           .limit(limit)
           .lean(),
-        // TODO: this search needs to include:
-        // - chain_name
-        // - hotel_name
-        // - country
-        // - city
-        // Use text-search?
-        Hotel.find({ hotel_name: regex })
+        Hotel.find({
+          $or: [
+            { chain_name: regex },
+            { hotel_name: regex },
+            { country: regex },
+            { city: regex },
+          ],
+        })
           .select(["hotel_name", "chain_name", "city", "country"])
           .limit(limit)
           .lean(),
       ]);
 
       return Ok({ cities, hotels, countries });
+    } catch (err) {
+      return Err(err as Error);
+    }
+  }
+
+  async getCity(id: string) {
+    const ok = mongoose.Types.ObjectId.isValid(id);
+    if (!ok) {
+      return Ok(null);
+    }
+
+    try {
+      const { City } = this.dbClient.model;
+      const city = await City.findById(id).lean();
+
+      return Ok(city);
+    } catch (err) {
+      return Err(err as Error);
+    }
+  }
+
+  async getHotel(id: string) {
+    const ok = mongoose.Types.ObjectId.isValid(id);
+    if (!ok) {
+      return Ok(null);
+    }
+
+    try {
+      const { Hotel } = this.dbClient.model;
+      const hotel = await Hotel.findById(id).lean();
+
+      return Ok(hotel);
+    } catch (err) {
+      return Err(err as Error);
+    }
+  }
+
+  async getCountry(id: string) {
+    const ok = mongoose.Types.ObjectId.isValid(id);
+    if (!ok) {
+      return Ok(null);
+    }
+
+    try {
+      const { Country } = this.dbClient.model;
+      const country = await Country.findById(id).lean();
+
+      return Ok(country);
     } catch (err) {
       return Err(err as Error);
     }

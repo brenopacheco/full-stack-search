@@ -14,7 +14,12 @@ export const useLocations = (search: string) => {
     queryFn: () =>
       fetch(`${env.API_URL}/locations?search=${search}`)
         .then((res) => res.json())
+        .then(delay)
         .then((data) => zLocations.parse(data)),
     enabled: Boolean(search),
   });
 };
+
+function delay<T>(data: T, ms = 200) {
+  return new Promise((resolve) => setTimeout(() => resolve(data), ms));
+}
