@@ -55,6 +55,5 @@ describe("App", () => {
     const link = await screen.findByRole("link", { name: "Hotel One" });
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute("href", "/hotel/3");
-    await flushPromises();
   });
 });

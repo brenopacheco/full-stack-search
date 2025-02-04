@@ -8,6 +8,7 @@
     "dev:no-watch": "tsx .",
     "build": "tsc",
     "build:api": "npm run build",
+    "test": "node --import tsx --test test/**/*.test.ts",
     "test:unit": "node --import tsx --test test/unit/*.test.ts",
     "test:component": "node --import tsx --test test/component/*.test.ts",
     "format:fix": "prettier ./src --write"
