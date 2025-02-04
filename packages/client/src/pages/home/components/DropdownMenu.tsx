@@ -10,6 +10,7 @@ const DropdownMenu = (props: {
       className={`search-dropdown-menu 
       dropdown-menu w-100 p-3 mt-2
       ${props.show ? "show" : ""}`}
+      data-testid="dropdown-menu"
     >
       {props.children}
     </div>
@@ -33,14 +34,13 @@ const DropdownMenuGroup = (props: {
 };
 
 export interface DropdownMenuGroupItem {
-  key: string;
   path: string;
   name: string;
 }
 
 const DropdownMenuGroupItem = (props: DropdownMenuGroupItem) => {
   return (
-    <li key={props.key}>
+    <li>
       <Link to={props.path} className="dropdown-item">
         <i className="fa fa-building mr-2"></i>
         {props.name}

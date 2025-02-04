@@ -7,7 +7,7 @@ const zEnv = z.object({
 export const env = zEnv.parse(import.meta.env);
 export type Env = z.infer<typeof zEnv>;
 
-// HACK: for demo purposes
+// HACK: for demo purposes, controls the delay of http-requests
 declare global {
   interface Window {
     DELAY_MS: number;

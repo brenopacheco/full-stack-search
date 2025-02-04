@@ -15,20 +15,20 @@ import { onShutdown } from "src/misc/exit";
 
   const logger = new Logger(env.value);
 
-  const db = env.value.DATABASE_URL
+  const dbclient = env.value.DATABASE_URL
     ? await DBClient.create(logger, env.value.DATABASE_URL)
     : await DBClient.createInMemory(logger, env.value.SEED);
 
-  if (!db.ok) {
-    logger.error(db.error);
+  if (!dbclient.ok) {
+    logger.error(dbclient.error);
     process.exit(1);
   }
 
-  const repository = new Repository(logger, db.value);
+  const repository = new Repository(logger, dbclient.value);
 
   container.register({ logger, repository });
 
-  onShutdown(logger, db.value.destroy);
+  onShutdown(logger, dbclient.value.destroy);
 
   const api = app();
   api.listen(env.value.PORT, () => {

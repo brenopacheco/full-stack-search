@@ -2,6 +2,8 @@ import z from "zod";
 import dotenv from "dotenv";
 import { Err, Ok, Result } from "src/misc/results";
 
+dotenv.config();
+
 const zEnv = z
   .object({
     PORT: z.number({ coerce: true }).default(3001),
@@ -25,18 +27,13 @@ const zEnv = z
 
 export type Environment = z.infer<typeof zEnv>;
 
-class EnvironmentError extends Error {
-  constructor(
-    message: string,
-    public errors: { var: string; error: string }[],
-  ) {
-    super(message);
+export class EnvironmentError extends Error {
+  constructor(public errors: { var: string; error: string }[]) {
+    super("Invalid configuration");
   }
 }
 
 export const environment = (): Result<Environment, Error> => {
-  dotenv.config();
-
   const result = zEnv.safeParse(process.env);
   if (result.success) {
     return Ok(result.data);
@@ -47,5 +44,5 @@ export const environment = (): Result<Environment, Error> => {
     error: issue.message,
   }));
 
-  return Err(new EnvironmentError("Invalid configuration", errors));
+  return Err(new EnvironmentError(errors));
 };

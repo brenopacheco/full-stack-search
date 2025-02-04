@@ -30,6 +30,7 @@ export const SearchInput = (props: SearchInputProps) => {
         placeholder={props.placeholder}
         onChange={onChange}
         value={search}
+        data-testid="search-input"
       />
       {search.length > 0 && (
         <span>

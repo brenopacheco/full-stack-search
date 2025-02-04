@@ -1,7 +1,7 @@
 import { Navigate, useParams } from "react-router";
-import { Alert } from "../../components/Alert";
-import { Spinner } from "../../components/Spinner";
-import { JsonBlock } from "../../components/JsonBlock";
+import { Alert } from "../../shared/Alert";
+import { Spinner } from "../../shared/Spinner";
+import { JsonBlock } from "../../shared/JsonBlock";
 import { useLocation } from "./hooks";
 import { LocationType } from "./types";
 
@@ -19,7 +19,7 @@ export default function Location(props: { type: LocationType }) {
         <b>{capitalize(props.type)}:</b> {id}
       </h2>
       {query.isError && <Alert message="Something went wrong..." />}
-      {query.isFetching && <Spinner message="Looking for city..." />}
+      {query.isLoading && <Spinner message="Looking for city..." />}
       {query.data && <JsonBlock obj={query.data} />}
       {notFound && <Alert message="Not found!" />}
     </div>

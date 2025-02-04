@@ -1,6 +1,6 @@
 import { test, describe } from "node:test";
 import assert from "node:assert";
-import { environment } from "src/misc/env";
+import { environment, EnvironmentError } from "src/misc/env";
 
 describe("misc/env", () => {
   test("loads default environment", () => {
@@ -44,29 +44,33 @@ describe("misc/env", () => {
     const env = environment();
 
     assert.strictEqual(env.ok, false);
-    assert.deepEqual(env.error, [
-      {
-        error: "Expected number, received nan",
-        var: "PORT",
-      },
-      {
-        error:
-          "Invalid enum value. Expected 'development' | 'production', received 'baz'",
-        var: "NODE_ENV",
-      },
-      {
-        error: "Invalid enum value. Expected 'true' | 'false', received 'qux'",
-        var: "SEED",
-      },
-      {
-        error: "Invalid",
-        var: "DATABASE_URL",
-      },
-      {
-        error:
-          "Invalid enum value. Expected 'error' | 'info' | 'debug', received 'quux'",
-        var: "LOG_LEVEL",
-      },
-    ]);
+    assert.deepEqual(
+      env.error,
+      new EnvironmentError([
+        {
+          var: "PORT",
+          error: "Expected number, received nan",
+        },
+        {
+          var: "NODE_ENV",
+          error:
+            "Invalid enum value. Expected 'development' | 'production', received 'baz'",
+        },
+        {
+          var: "SEED",
+          error:
+            "Invalid enum value. Expected 'true' | 'false', received 'qux'",
+        },
+        {
+          var: "DATABASE_URL",
+          error: "Invalid connection string format",
+        },
+        {
+          var: "LOG_LEVEL",
+          error:
+            "Invalid enum value. Expected 'error' | 'info' | 'debug', received 'quux'",
+        },
+      ]),
+    );
   });
 });

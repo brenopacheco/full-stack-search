@@ -1,16 +1,16 @@
 import { useSearchParams } from "react-router";
 import { useLocations } from "./hooks";
-import { SearchInput } from "./SearchInput";
-import { Alert } from "../../components/Alert";
-import { Spinner } from "../../components/Spinner";
-import DropdownMenu from "./DropdownMenu";
+import { SearchInput } from "./components/SearchInput";
+import { Alert } from "../../shared/Alert";
+import { Spinner } from "../../shared/Spinner";
+import DropdownMenu from "./components/DropdownMenu";
 
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = useLocations(searchParams.get("search"));
 
   const search = searchParams.get("search") ?? "";
-  const onSearch = (search: string) => setSearchParams({search})
+  const onSearch = (search: string) => setSearchParams({ search });
 
   return (
     <div className="row height d-flex justify-content-center pt-5">

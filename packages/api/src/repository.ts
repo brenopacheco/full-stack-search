@@ -15,7 +15,7 @@ type Locations = {
 export class Repository {
   constructor(
     private logger: Logger,
-    private dbClient: DBClient,
+    private dbclient: DBClient,
   ) {}
 
   async findLocationsByPartialName(
@@ -23,7 +23,7 @@ export class Repository {
     limit: number,
   ): Promise<Result<Locations, Error>> {
     try {
-      const { City, Country, Hotel } = this.dbClient.model;
+      const { City, Country, Hotel } = this.dbclient.model;
 
       const regex = { $regex: new RegExp(`^${search}`), $options: "i" };
       this.logger.debug("findLocationsByPartialName", { regex });
@@ -60,7 +60,7 @@ export class Repository {
     }
 
     try {
-      const { City } = this.dbClient.model;
+      const { City } = this.dbclient.model;
       const city = await City.findById(id).lean();
 
       return Ok(city);
@@ -76,7 +76,7 @@ export class Repository {
     }
 
     try {
-      const { Hotel } = this.dbClient.model;
+      const { Hotel } = this.dbclient.model;
       const hotel = await Hotel.findById(id).lean();
 
       return Ok(hotel);
@@ -92,7 +92,7 @@ export class Repository {
     }
 
     try {
-      const { Country } = this.dbClient.model;
+      const { Country } = this.dbclient.model;
       const country = await Country.findById(id).lean();
 
       return Ok(country);

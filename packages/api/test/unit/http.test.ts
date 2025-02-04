@@ -52,6 +52,7 @@ describe("misc/http", () => {
   test("should return 500 Internal Server Error", () => {
     const resMock = {
       status: mock.fn((_code: number) => resMock),
+      send: mock.fn(() => resMock),
     };
 
     const result = http.ServerError(resMock as unknown as Response);
@@ -59,5 +60,6 @@ describe("misc/http", () => {
     assert.strictEqual(result, resMock);
     assert.deepEqual(resMock.status.mock.calls.length, 1);
     assert.deepEqual(resMock.status.mock.calls[0].arguments, [500]);
+    assert.deepEqual(resMock.send.mock.calls.length, 1);
   });
 });

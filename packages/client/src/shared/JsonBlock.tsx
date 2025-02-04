@@ -1,4 +1,4 @@
-export const JsonBlock = (props: { obj: object; }) => {
+export const JsonBlock = (props: { obj: object }) => {
   const text = JSON.stringify(props.obj, null, 2);
   return (
     <pre>
@@ -6,4 +6,3 @@ export const JsonBlock = (props: { obj: object; }) => {
     </pre>
   );
 };
-

@@ -11,11 +11,12 @@ export const useLocation = (location: LocationType, id?: string) => {
         if (res.status === 404) return null;
         return res.json().then((data) => data as object);
       }),
-
     enabled: Boolean(id),
   });
 };
 
 function delay<T>(data: T) {
-  return new Promise((resolve) => setTimeout(() => resolve(data), window.DELAY_MS));
+  return new Promise((resolve) =>
+    setTimeout(() => resolve(data), window.DELAY_MS),
+  );
 }

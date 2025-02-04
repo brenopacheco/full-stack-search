@@ -4,12 +4,12 @@ import { cities } from "src/seed/cities";
 import { countries } from "src/seed/countries";
 import { hotels } from "src/seed/hotels";
 
-export async function seed(dbClient: DBClient): Promise<Result<void, Error>> {
+export async function seed(dbclient: DBClient): Promise<Result<void, Error>> {
   try {
     await Promise.all([
-      dbClient.model.City.insertMany(cities),
-      dbClient.model.Country.insertMany(countries),
-      dbClient.model.Hotel.insertMany(hotels),
+      dbclient.model.City.insertMany(cities),
+      dbclient.model.Country.insertMany(countries),
+      dbclient.model.Hotel.insertMany(hotels),
     ]);
   } catch (err) {
     return Err(err as Error);
@@ -19,13 +19,13 @@ export async function seed(dbClient: DBClient): Promise<Result<void, Error>> {
 
 /** HACK: indexing should not be done like this */
 export async function syncIndexes(
-  dbClient: DBClient,
+  dbclient: DBClient,
 ): Promise<Result<void, Error>> {
   try {
     await Promise.all([
-      dbClient.model.City.syncIndexes(),
-      dbClient.model.Country.syncIndexes(),
-      dbClient.model.Hotel.syncIndexes(),
+      dbclient.model.City.syncIndexes(),
+      dbclient.model.Country.syncIndexes(),
+      dbclient.model.Hotel.syncIndexes(),
     ]);
   } catch (err) {
     return Err(err as Error);
