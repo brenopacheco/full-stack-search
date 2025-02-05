@@ -1,9 +1,7 @@
-import { DropdownMenuGroupProps } from "./DropdownMenu";
+import { DropdownMenuGroupItem } from "./components/DropdownMenu";
 import { City, Country, Hotel } from "./types";
 
-type MenuItem = DropdownMenuGroupProps["items"][number];
-
-export function hotelToItem(hotels?: Hotel[]): MenuItem[] {
+export function hotelToItem(hotels?: Hotel[]): DropdownMenuGroupItem[] {
   if (!hotels) return [];
   return hotels.map((hotel) => ({
     key: hotel._id,
@@ -12,7 +10,7 @@ export function hotelToItem(hotels?: Hotel[]): MenuItem[] {
   }));
 }
 
-export function countryToItem(countries?: Country[]): MenuItem[] {
+export function countryToItem(countries?: Country[]): DropdownMenuGroupItem[] {
   if (!countries) return [];
   return countries.map((country) => ({
     key: country._id,
@@ -21,7 +19,7 @@ export function countryToItem(countries?: Country[]): MenuItem[] {
   }));
 }
 
-export function cityToItem(cities?: City[]): MenuItem[] {
+export function cityToItem(cities?: City[]): DropdownMenuGroupItem[] {
   if (!cities) return [];
   return cities.map((city) => ({
     key: city._id,
